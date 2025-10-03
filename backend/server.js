@@ -1,5 +1,3 @@
-// Build a Book Review Platform where users can sign up, log in, add books, and review books. The goal is to test your skills in MongoDB, Express, React, Node.js (MERN) along with authentication, CRUD operations, and frontend integration.
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
