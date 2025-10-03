@@ -1,8 +1,8 @@
-const model = require("mongoose").model;
-const schema = require("mongoose").Schema;
+const mongoose = require("mongoose");
+const schema = mongoose.Schema;
 
 const bookSchema = new schema({
-  bookId : { type: String, required: true, unique: true },
+  bookId: { type: String, required: true, unique: true },
   title: { type: String, required: true },
   author: { type: String, required: true },
   description: { type: String, required: true },
@@ -14,5 +14,6 @@ const bookSchema = new schema({
     },
   ],
 });
+const Book = mongoose.model("Book", bookSchema);
 
-module.exports = model("Book", bookSchema);
+module.exports = Book;

@@ -4,7 +4,7 @@ const {
   registerUser,
   loginUser,
   getProfile,
-} = require("../controllers/authController");
+} = require("../controllers/userController");
 const router = express.Router();
 
 // Register a new user
