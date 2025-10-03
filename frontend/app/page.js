@@ -1,9 +1,12 @@
 export default function Home() {
   return (
-    <main className="font-sans min-h-screen">
+    <main className="font-sans min-h-screen relative">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(80rem_60rem_at_50%_-10%,rgba(99,102,241,0.25),transparent),radial-gradient(60rem_40rem_at_85%_10%,rgba(16,185,129,0.12),transparent)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(10,10,10,0.6)]" />
+      </div>
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60rem_40rem_at_50%_-10%,rgba(99,102,241,0.25),transparent),radial-gradient(40rem_30rem_at_80%_10%,rgba(16,185,129,0.12),transparent)]" />
         <div className="relative mx-auto max-w-6xl px-6 py-24 sm:py-28">
           <div className="text-center">
             <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">
@@ -45,7 +48,7 @@ export default function Home() {
           </p>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6 hover:border-zinc-700 transition">
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6 hover:border-zinc-700 transition flex flex-col ">
             <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600/20 text-indigo-300">
               🔐
             </div>
@@ -54,11 +57,6 @@ export default function Home() {
               Sign up and log in with JWT-based sessions. Access your profile
               securely.
             </p>
-            <ul className="mt-4 list-disc pl-5 text-sm text-zinc-400">
-              <li>POST /api/users/register</li>
-              <li>POST /api/users/login</li>
-              <li>GET /api/users/profile/:username</li>
-            </ul>
           </div>
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6 hover:border-zinc-700 transition">
             <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600/20 text-emerald-300">
@@ -69,11 +67,6 @@ export default function Home() {
               Add and browse books with protected routes. Reviews are populated
               for context.
             </p>
-            <ul className="mt-4 list-disc pl-5 text-sm text-zinc-400">
-              <li>POST /api/books/addbook</li>
-              <li>GET /api/books/getbooks</li>
-              <li>GET /api/books/:bookId</li>
-            </ul>
           </div>
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6 hover:border-zinc-700 transition">
             <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-sky-600/20 text-sky-300">
@@ -84,12 +77,6 @@ export default function Home() {
               Create, update, and manage reviews for any book. Auth required
               where needed.
             </p>
-            <ul className="mt-4 list-disc pl-5 text-sm text-zinc-400">
-              <li>POST /api/review/:bookId</li>
-              <li>GET /api/review/:bookId</li>
-              <li>PUT /api/review/:bookId/:reviewId</li>
-              <li>DELETE /api/review/:bookId/:reviewId</li>
-            </ul>
           </div>
         </div>
       </section>
@@ -150,7 +137,7 @@ export default function Home() {
               Log in
             </a>
             <a
-              href="/register"
+              href="/signup"
               className="rounded-md bg-zinc-900/40 ring-1 ring-zinc-700 px-5 py-2.5 text-sm font-medium text-zinc-200 hover:bg-zinc-800/60 transition"
             >
               Create account
@@ -162,12 +149,9 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-zinc-900/60">
         <div className="mx-auto max-w-6xl px-6 py-10 text-center text-sm text-zinc-500">
-          <span>API base </span>
-          <code className="rounded bg-zinc-900/50 px-2 py-1 text-zinc-300">
-            /api
-          </code>
-          <span className="mx-2">•</span>
-          <span>Server: Express + MongoDB</span>
+          <span>
+            &copy;2025 | Syed Muhammad Hashir Ali | All rights reserved
+          </span>
         </div>
       </footer>
     </main>
