@@ -1,6 +1,6 @@
 // Review Controller
 const Review = require("../models/Review");
-
+const nanoid = require("nanoid");
 const Book = require("../models/Book");
 
 // Logic for adding, fetching, updating, and deleting reviews.
@@ -14,15 +14,25 @@ const addReview = async (req, res) => {
     if (!book) {
       return res.status(404).json({ message: "Book not found" });
     }
+    //generate unique reviewId
+    const reviewId = nanoid.nanoid();
 
-    const newReview = new Review({ username, book: bookId, rating, comment });
+    const newReview = new Review({
+      reviewId,
+      username,
+      book: bookId,
+      rating,
+      comment,
+    });
     await newReview.save();
 
     // Add review reference to the book
     book.reviews.push(newReview._id);
     await book.save();
 
-    res.status(201).json({ message: "Review added successfully", review: newReview });
+    res
+      .status(201)
+      .json({ message: "Review added successfully", review: newReview });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }

@@ -1,6 +1,5 @@
 // Book Controller
 const Book = require("../models/Book");
-const Review = require("../models/Review");
 const { nanoid } = require("nanoid");
 
 // Add a new book
