@@ -10,6 +10,7 @@ const registerUser = async (req, res) => {
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
+      console.log("Email already exists");
       return res.status(400).json({ message: "Email already exists" });
     }
 
@@ -44,12 +45,14 @@ const loginUser = async (req, res) => {
     // Find user
     const user = await User.findOne({ username });
     if (!user) {
+      console.log("User not found");
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
+      console.log("Invalid password");
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
@@ -66,6 +69,7 @@ const loginUser = async (req, res) => {
         email: user.email,
       },
     });
+    console.log("User logged in successfully");
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
@@ -86,6 +90,7 @@ const getProfile = async (req, res) => {
     }
 
     res.json(user);
+    console.log("User profile fetched successfully");
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

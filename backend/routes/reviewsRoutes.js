@@ -1,4 +1,3 @@
-// review routes
 const express = require("express");
 const {
   addReview,
@@ -6,18 +5,20 @@ const {
   updateReview,
   deleteReview,
 } = require("../controllers/reviewController");
+const authMiddleware = require("../middleware/authMiddleware");
+
 const router = express.Router();
 
-// Add a new review for a book
-router.post("/api/reviews", addReview);
+// Add a review to a book
+router.post("/:bookId", authMiddleware, addReview);
 
-// Get all reviews for a specific book
-router.get("/api/reviews/:bookId", getReviewsByBook);
+// Get all reviews for a book
+router.get("/:bookId", getReviewsByBook);
 
 // Update a review
-router.put("/api/reviews/:reviewId", updateReview);
+router.put("/:bookId/:reviewId", authMiddleware, updateReview);
 
 // Delete a review
-router.delete("/api/reviews/:reviewId", deleteReview);
+router.delete("/:bookId/:reviewId", authMiddleware, deleteReview);
 
 module.exports = router;

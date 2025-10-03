@@ -8,12 +8,12 @@ const {
 const router = express.Router();
 
 // Register a new user
-router.post("/api/register", registerUser);
+router.post("/register", registerUser);
 
 // Login an existing user
-router.post("/api/login", loginUser);
+router.post("/login", loginUser);
 
 // Get user profile
-router.get("/api/profile/:username", getProfile);
+router.get("/profile/:username", getProfile);
 
 module.exports = router;

@@ -1,83 +1,103 @@
-// Review Controller
-const Review = require("../models/Review");
-const nanoid = require("nanoid");
 const Book = require("../models/Book");
-
-// Logic for adding, fetching, updating, and deleting reviews.
-
+const Review = require("../models/Review");
 // Add a review to a book
 const addReview = async (req, res) => {
-  const { bookId } = req.params;
-  const { username, rating, comment } = req.body;
   try {
-    const book = await Book.findById(bookId);
-    if (!book) {
-      return res.status(404).json({ message: "Book not found" });
-    }
-    //generate unique reviewId
-    const reviewId = nanoid.nanoid();
+    const { bookId } = req.params;
+    const { rating, comment } = req.body;
 
-    const newReview = new Review({
-      reviewId,
-      username,
-      book: bookId,
+    const book = await Book.findById(bookId);
+    if (!book) return res.status(404).json({ message: "Book not found" });
+
+    book.reviews.push({
+      user: req.user._id,
       rating,
       comment,
     });
-    await newReview.save();
 
-    // Add review reference to the book
-    book.reviews.push(newReview._id);
     await book.save();
-
+    const newReview = book.reviews[book.reviews.length - 1];
     res
       .status(201)
       .json({ message: "Review added successfully", review: newReview });
   } catch (err) {
+    console.error("Error adding review:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
 // Get all reviews for a book
 const getReviewsByBook = async (req, res) => {
-  const { bookId } = req.params;
   try {
-    const reviews = await Review.find({ book: bookId });
-    res.status(200).json(reviews);
+    const { bookId } = req.params;
+    const book = await Book.findById(bookId).populate(
+      "reviews.user",
+      "username email"
+    );
+    if (!book) return res.status(404).json({ message: "Book not found" });
+
+    res.status(200).json(book.reviews);
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
 };
 
-// Update a review
+// Update review
 const updateReview = async (req, res) => {
-  const { reviewId } = req.params;
-  const { rating, comment } = req.body;
   try {
-    const review = await Review.findById(reviewId);
-    if (!review) {
-      return res.status(404).json({ message: "Review not found" });
+    const { bookId, reviewId } = req.params;
+    const { rating, comment } = req.body;
+
+    const book = await Book.findById(bookId);
+    if (!book) return res.status(404).json({ message: "Book not found" });
+
+    const review = book.reviews.id(reviewId);
+    if (!review) return res.status(404).json({ message: "Review not found" });
+
+    // check if the review belongs to logged-in user
+    if (review.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Not authorized" });
     }
+
     review.rating = rating || review.rating;
     review.comment = comment || review.comment;
-    await review.save();
-    res.status(200).json({ message: "Review updated successfully", review });
+
+    await book.save();
+    res.status(200).json({ message: "Review updated", review });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
 };
 
-// Delete a review
+// Delete review
 const deleteReview = async (req, res) => {
-  const { reviewId } = req.params;
   try {
-    const review = await Review.findById(reviewId);
+    const { bookId, reviewId } = req.params;
+
+    const book = await Book.findById(bookId);
+    if (!book) {
+      console.log("Book not found for ID:", bookId);
+      return res.status(404).json({ message: "Book not found" });
+    }
+
+    const review = book.reviews.id(reviewId);
     if (!review) {
+      console.log("Review not found for ID:", reviewId);
       return res.status(404).json({ message: "Review not found" });
     }
-    await review.remove();
-    res.status(200).json({ message: "Review deleted successfully" });
+
+    if (review.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    book.reviews.pull(review._id);
+    await book.save();
+    await Review.findByIdAndDelete(reviewId);
+    
+    console.log("Review deleted for ID:", reviewId);
+    res.status(200).json({ message: "Review deleted" });
   } catch (err) {
+    console.log("Error deleting review:", err);
     res.status(500).json({ message: "Server error" });
   }
 };

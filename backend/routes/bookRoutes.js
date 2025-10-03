@@ -6,14 +6,17 @@ const {
   getBookById,
 } = require("../controllers/bookController");
 const router = express.Router();
+const authMiddleware = require("../middleware/authMiddleware");
+
+router.use(authMiddleware);
 
 // Add a new book
-router.post("/api/books", addBook);
+router.post("/addbook", addBook);
 
 // Get all books
-router.get("/api/books", getBooks);
+router.get("/getbooks", getBooks);
 
 // Get a book by ID
-router.get("/api/books/:id", getBookById);
+router.get("/:bookId", getBookById);
 
 module.exports = router;
