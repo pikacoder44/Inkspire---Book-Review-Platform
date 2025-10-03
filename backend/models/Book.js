@@ -2,6 +2,7 @@ const model = require("mongoose").model;
 const schema = require("mongoose").Schema;
 
 const bookSchema = new schema({
+  bookId : { type: String, required: true, unique: true },
   title: { type: String, required: true },
   author: { type: String, required: true },
   description: { type: String, required: true },
