@@ -1,7 +1,6 @@
 // Auth middleware
 const jwt = require("jsonwebtoken");
-const { secret, expiresIn } = require("../config/jwt");
-
+const { secret } = require("../config/jwt");
 
 const authMiddleware = (req, res, next) => {
   const token = req.header("Authorization")?.replace("Bearer ", "");
