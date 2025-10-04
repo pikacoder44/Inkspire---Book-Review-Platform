@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -13,7 +13,7 @@ const Login = () => {
     setLoading(true);
     const response = await fetch("http://localhost:5000/api/users/login", {
       method: "POST",
-      body: JSON.stringify({ username: username, password: password }),
+      body: JSON.stringify({ email: email, password: password }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -65,13 +65,13 @@ const Login = () => {
           <form className="space-y-5">
             <div>
               <label className="mb-2 block text-sm font-medium text-zinc-300">
-                Username
+                Email
               </label>
               <input
-                type="text"
-                placeholder="Enter your username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full rounded-xl border border-purple-500/20 bg-zinc-950/60 px-4 py-3 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/20 transition"
               />
             </div>

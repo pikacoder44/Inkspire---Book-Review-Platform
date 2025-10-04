@@ -13,10 +13,14 @@ const Books = () => {
   const [selectedBookId, setSelectedBookId] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
-  const fetchBooks = async () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalBooks, setTotalBooks] = useState(0);
+  const [currentUsername, setCurrentUsername] = useState(null);
+  const fetchBooks = async (page = 1) => {
     if (!token) return;
     try {
-      const response = await fetch("http://localhost:5000/api/books/getbooks", {
+      const response = await fetch(`http://localhost:5000/api/books/getbooks?page=${page}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -26,7 +30,10 @@ const Books = () => {
         throw new Error(`Failed to fetch books: ${response.status}`);
       }
       const data = await response.json();
-      setBooks(Array.isArray(data) ? data : []);
+      setBooks(Array.isArray(data.books) ? data.books : []);
+      setCurrentPage(data.currentPage || 1);
+      setTotalPages(data.totalPages || 1);
+      setTotalBooks(data.totalBooks || 0);
     } catch (err) {
       console.error(err);
       setBooks([]);
@@ -40,7 +47,7 @@ const Books = () => {
 
   const handleReviewAdded = () => {
     setShowModal(false);
-    fetchBooks(); // Refresh books to show updated reviews
+    fetchBooks(currentPage); // Refresh books to show updated reviews
   };
 
   const handleEditBook = (book) => {
@@ -52,24 +59,34 @@ const Books = () => {
 
   const handleBookUpdated = () => {
     setShowEditModal(false);
-    fetchBooks(); // Refresh books to show updated data
+    fetchBooks(currentPage); // Refresh books to show updated data
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const t = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
     if (t) {
       setToken(t);
       setSignedIn(true);
+      setCurrentUsername(username);
     } else {
       setToken(null);
       setSignedIn(false);
+      setCurrentUsername(null);
     }
   }, []);
 
   useEffect(() => {
-    fetchBooks();
-  }, [token]);
+    fetchBooks(currentPage);
+  }, [token, currentPage]);
 
   const handleDelete = async (bookId) => {
     try {
@@ -86,7 +103,7 @@ const Books = () => {
       if (!response.ok) {
         throw new Error(`Failed to delete book: ${response.status}`);
       }
-      fetchBooks();
+      fetchBooks(currentPage);
     } catch (err) {
       console.error(err);
     }
@@ -225,7 +242,9 @@ const Books = () => {
               return (
                 <div
                   key={book._id}
-                  className="group relative rounded-2xl border border-purple-500/20 bg-zinc-900/30 backdrop-blur-sm p-6 transition-all hover:border-purple-500/40 hover:shadow-xl hover:shadow-purple-500/10 hover:-translate-y-1 ring-1 ring-purple-500/10"
+                  className={`group relative rounded-2xl border border-purple-500/20 bg-zinc-900/30 backdrop-blur-sm p-6 transition-all hover:border-purple-500/40 hover:shadow-xl hover:shadow-purple-500/10 hover:-translate-y-1 ring-1 ring-purple-500/10 ${
+                    showDropdown === book._id ? 'z-50' : 'z-0'
+                  }`}
                 >
                   {/* Book Icon & Title Section */}
                   <div className="flex gap-4 mb-4">
@@ -255,6 +274,22 @@ const Books = () => {
                         by {book.author}
                       </p>
                     </div>
+                  </div>
+
+                  {/* Genre and Year */}
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-purple-500/10 px-2.5 py-1 text-xs font-medium text-purple-300 ring-1 ring-purple-500/20">
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                      </svg>
+                      {book.genre}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-cyan-500/10 px-2.5 py-1 text-xs font-medium text-cyan-300 ring-1 ring-cyan-500/20">
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      {book.publishedYear}
+                    </span>
                   </div>
 
                   {/* Description */}
@@ -296,61 +331,113 @@ const Books = () => {
                     >
                       View Details
                     </button>
-                    <div className="relative inline-block">
-                      <button
-                        className="rounded-lg bg-zinc-800 px-3 py-2.5 text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all"
-                        onClick={() =>
-                          setShowDropdown(
-                            showDropdown === book._id ? null : book._id
-                          )
-                        }
-                      >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+                    {book.createdBy?.username === currentUsername && (
+                      <div className="relative inline-block z-50">
+                        <button
+                          className="rounded-lg bg-zinc-800 px-3 py-2.5 text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all"
+                          onClick={() =>
+                            setShowDropdown(
+                              showDropdown === book._id ? null : book._id
+                            )
+                          }
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                          />
-                        </svg>
-                      </button>
-                      {showDropdown === book._id && (
-                        <div className="absolute right-0 mt-2 w-48 bg-zinc-800 rounded-lg shadow-lg border border-zinc-700 z-10">
-                          <div className="py-1">
-                            <button
-                              className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-700 transition"
-                              onClick={() => handleEditBook(book)}
-                            >
-                              Edit Book
-                            </button>
-                            <button
-                              className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-700 transition"
-                              onClick={() => {
-                                setShowDropdown(null);
-                                handleAddReview(book._id);
-                              }}
-                            >
-                              Rate Book
-                            </button>
-                            <button
-                              className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-zinc-700 transition"
-                              onClick={() => handleDelete(book._id)}
-                            >
-                              Delete Book
-                            </button>
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                            />
+                          </svg>
+                        </button>
+                        {showDropdown === book._id && (
+                          <div className="absolute right-0 mt-2 w-48 bg-zinc-800 rounded-lg shadow-xl border border-zinc-700 z-[100]">
+                            <div className="py-1">
+                              <button
+                                className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-700 transition"
+                                onClick={() => handleEditBook(book)}
+                              >
+                                Edit Book
+                              </button>
+                              <button
+                                className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-zinc-700 transition"
+                                onClick={() => handleDelete(book._id)}
+                              >
+                                Delete Book
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
+                        )}
+                      </div>
+                    )}
+                    <button
+                      onClick={() => {
+                        setShowDropdown(null);
+                        handleAddReview(book._id);
+                      }}
+                      className="rounded-lg bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 px-3 py-2.5 text-sm font-medium text-purple-300 hover:from-purple-600/30 hover:to-pink-600/30 hover:border-purple-500/50 transition-all"
+                    >
+                      Rate
+                    </button>
                   </div>
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {signedIn && books.length > 0 && totalPages > 1 && (
+          <div className="mt-12 flex items-center justify-center gap-2">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="rounded-lg bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-zinc-800"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            
+            <div className="flex items-center gap-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+                    currentPage === page
+                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/25'
+                      : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white'
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="rounded-lg bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-zinc-800"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {/* Pagination Info */}
+        {signedIn && books.length > 0 && (
+          <div className="mt-6 text-center">
+            <p className="text-sm text-zinc-500">
+              Showing {books.length} of {totalBooks} books (Page {currentPage} of {totalPages})
+            </p>
           </div>
         )}
       </section>

@@ -5,6 +5,8 @@ const EditBook = ({ isOpen, onClose, bookId, bookData, onBookUpdated }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
+  const [genre, setGenre] = useState("");
+  const [publishedYear, setPublishedYear] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -14,6 +16,8 @@ const EditBook = ({ isOpen, onClose, bookId, bookData, onBookUpdated }) => {
       setTitle(bookData.title || "");
       setAuthor(bookData.author || "");
       setDescription(bookData.description || "");
+      setGenre(bookData.genre || "");
+      setPublishedYear(bookData.publishedYear || "");
     }
   }, [bookData]);
 
@@ -38,7 +42,7 @@ const EditBook = ({ isOpen, onClose, bookId, bookData, onBookUpdated }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ title, author, description }),
+          body: JSON.stringify({ title, author, description, genre, publishedYear: parseInt(publishedYear) }),
         }
       );
 
@@ -140,6 +144,46 @@ const EditBook = ({ isOpen, onClose, bookId, bookData, onBookUpdated }) => {
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
                 placeholder="Enter author name"
+                className="w-full rounded-xl border border-purple-500/20 bg-zinc-950/60 px-4 py-3 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/20 transition-all"
+              />
+            </div>
+
+            {/* Genre */}
+            <div>
+              <label
+                htmlFor="genre"
+                className="block text-sm font-medium text-zinc-300 mb-2"
+              >
+                Genre
+              </label>
+              <input
+                type="text"
+                id="genre"
+                required
+                value={genre}
+                onChange={(e) => setGenre(e.target.value)}
+                placeholder="Enter genre"
+                className="w-full rounded-xl border border-purple-500/20 bg-zinc-950/60 px-4 py-3 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/20 transition-all"
+              />
+            </div>
+
+            {/* Published Year */}
+            <div>
+              <label
+                htmlFor="publishedYear"
+                className="block text-sm font-medium text-zinc-300 mb-2"
+              >
+                Published Year
+              </label>
+              <input
+                type="number"
+                id="publishedYear"
+                required
+                min="1000"
+                max="2100"
+                value={publishedYear}
+                onChange={(e) => setPublishedYear(e.target.value)}
+                placeholder="Enter published year"
                 className="w-full rounded-xl border border-purple-500/20 bg-zinc-950/60 px-4 py-3 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/20 transition-all"
               />
             </div>

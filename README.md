@@ -47,8 +47,43 @@ This project demonstrates skills in **MongoDB, Express, React, Node.js (MERN)** 
 
 ---
 
-## 📂 Project Structure
+## 📁 Project Structure
 
-/frontend → React frontend (pages, components, context)
-/backend → Node.js backend (routes, controllers, models)
-/.env → Environment variables (ignored in git)
+```
+backend/
+├── config/
+│   ├── db.js              # MongoDB connection
+│   └── jwt.js             # JWT secret
+├── controllers/
+│   ├── bookController.js  # Book CRUD + Pagination
+│   ├── reviewController.js # Review CRUD
+│   └── userController.js  # Auth (register/login)
+├── middleware/
+│   └── authMiddleware.js  # JWT validation
+├── models/
+│   ├── Book.js            # Book + Review schema
+│   └── User.js            # User schema + password hashing
+├── routes/
+│   ├── bookRoutes.js
+│   ├── reviewsRoutes.js
+│   └── userRoutes.js
+└── server.js              # Express app
+
+frontend/
+├── app/
+│   ├── addbook/
+│   │   └── page.jsx       # Add book form
+│   ├── books/
+│   │   ├── [bookId]/
+│   │   │   └── page.jsx   # Book details + reviews
+│   │   └── page.jsx       # Books list + pagination
+│   ├── login/
+│   │   └── page.jsx       # Login (email + password)
+│   └── signup/
+│       └── page.jsx       # Signup form
+└── components/
+    ├── AddReview.jsx      # Add review modal
+    ├── EditBook.jsx       # Edit book modal
+    ├── EditReview.jsx     # Edit review modal
+    └── Navbar.jsx         # Navigation
+```

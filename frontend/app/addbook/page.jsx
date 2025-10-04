@@ -7,6 +7,8 @@ const AddBook = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
+  const [genre, setGenre] = useState("");
+  const [publishedYear, setPublishedYear] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -31,7 +33,7 @@ const AddBook = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ title, author, description }),
+        body: JSON.stringify({ title, author, description, genre, publishedYear: parseInt(publishedYear) }),
       });
 
       const data = await response.json();
@@ -41,6 +43,8 @@ const AddBook = () => {
         setTitle("");
         setAuthor("");
         setDescription("");
+        setGenre("");
+        setPublishedYear("");
         setTimeout(() => {
           router.push("/books");
         }, 1500);
@@ -143,6 +147,46 @@ const AddBook = () => {
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
                 placeholder="Enter the author's name"
+                className="w-full rounded-xl border border-purple-500/20 bg-zinc-950/60 px-4 py-3 text-base text-zinc-200 placeholder-zinc-500 outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/20 transition-all"
+              />
+            </div>
+
+            {/* Genre Field */}
+            <div>
+              <label
+                htmlFor="genre"
+                className="block text-sm font-medium text-zinc-300 mb-2"
+              >
+                Genre <span className="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                id="genre"
+                required
+                value={genre}
+                onChange={(e) => setGenre(e.target.value)}
+                placeholder="e.g., Fiction, Non-Fiction, Mystery, Romance"
+                className="w-full rounded-xl border border-purple-500/20 bg-zinc-950/60 px-4 py-3 text-base text-zinc-200 placeholder-zinc-500 outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/20 transition-all"
+              />
+            </div>
+
+            {/* Published Year Field */}
+            <div>
+              <label
+                htmlFor="publishedYear"
+                className="block text-sm font-medium text-zinc-300 mb-2"
+              >
+                Published Year <span className="text-red-400">*</span>
+              </label>
+              <input
+                type="number"
+                id="publishedYear"
+                required
+                min="1000"
+                max="2100"
+                value={publishedYear}
+                onChange={(e) => setPublishedYear(e.target.value)}
+                placeholder="e.g., 2020"
                 className="w-full rounded-xl border border-purple-500/20 bg-zinc-950/60 px-4 py-3 text-base text-zinc-200 placeholder-zinc-500 outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/20 transition-all"
               />
             </div>

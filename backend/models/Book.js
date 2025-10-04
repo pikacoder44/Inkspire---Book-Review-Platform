@@ -6,6 +6,9 @@ const bookSchema = new schema(
     title: { type: String, required: true },
     author: { type: String, required: true },
     description: { type: String },
+    genre: { type: String, required: true },
+    publishedYear: { type: Number, required: true },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     reviews: [
       {
         user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },

@@ -39,11 +39,11 @@ const registerUser = async (req, res) => {
 
 // Login a user
 const loginUser = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    // Find user
-    const user = await User.findOne({ username });
+    // Find user by email
+    const user = await User.findOne({ email });
     if (!user) {
       console.log("User not found");
       return res.status(400).json({ message: "Invalid credentials" });
