@@ -1,35 +1,47 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import AddReview from "../../components/AddReview";
 const Books = () => {
   const [books, setBooks] = useState([]);
   const [signedIn, setSignedIn] = useState(false);
   const [token, setToken] = useState(null);
-  const [reviews, setReviews] = useState([]);
   const [showDropdown, setShowDropdown] = useState(null);
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/api/review/all`, {
-          method: "GET",
+  const [showModal, setShowModal] = useState(false);
+  const [selectedBookId, setSelectedBookId] = useState(null);
+  const fetchBooks = async () => {
+    if (!token) return;
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/books/getbooks",
+        {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
-        });
-        if (!response.ok) {
-          throw new Error(`Failed to fetch reviews: ${response.status}`);
         }
-        const data = await response.json();
-        setReviews(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error(err);
-        setReviews([]);
+      );
+      if (!response.ok) {
+        throw new Error(`Failed to fetch books: ${response.status}`);
       }
-    };
-    fetchReviews();
-  }, []);
+      const data = await response.json();
+      setBooks(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error(err);
+      setBooks([]);
+    }
+  };
+
+  const handleAddReview = (bookId) => {
+    setSelectedBookId(bookId);
+    setShowModal(true);
+  };
+
+  const handleReviewAdded = () => {
+    setShowModal(false);
+    fetchBooks(); // Refresh books to show updated reviews
+  };
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -44,28 +56,6 @@ const Books = () => {
   }, []);
 
   useEffect(() => {
-    if (!token) return;
-    const fetchBooks = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:5000/api/books/getbooks",
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error(`Failed to fetch books: ${response.status}`);
-        }
-        const data = await response.json();
-        setBooks(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error(err);
-        setBooks([]);
-      }
-    };
     fetchBooks();
   }, [token]);
 
@@ -286,23 +276,26 @@ const Books = () => {
                           <div className="py-1">
                             <button
                               className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-700 transition"
-                              onClick={() =>
-                                router.push(`/books/${book._id}/edit`)
-                              }
+                              onClick={() => {
+                                setShowDropdown(null);
+                                router.push(`/books/${book._id}/edit`);
+                              }}
                             >
                               Edit Book
                             </button>
                             <button
                               className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-700 transition"
-                              onClick={() =>
-                                router.push(`/books/${book._id}/rate`)
-                              }
+                              onClick={() => {
+                                setShowDropdown(null);
+                                handleAddReview(book._id);
+                              }}
                             >
                               Rate Book
                             </button>
                             <button
                               className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-zinc-700 transition"
                               onClick={async () => {
+                                setShowDropdown(null);
                                 const response = await fetch(
                                   `http://localhost:5000/api/books/${book._id}`,
                                   {
@@ -330,6 +323,13 @@ const Books = () => {
           </div>
         )}
       </section>
+      {/* Add Review Modal */}
+      <AddReview
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        bookId={selectedBookId}
+        onReviewAdded={handleReviewAdded}
+      />
     </main>
   );
 };

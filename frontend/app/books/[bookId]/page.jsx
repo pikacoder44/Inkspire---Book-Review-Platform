@@ -39,7 +39,7 @@ const BookDetails = () => {
   };
 
   const handleReviewAdded = () => {
-    // Refetch book data to show new review
+
     fetchBook();
   };
 
