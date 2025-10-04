@@ -2,6 +2,7 @@ const express = require("express");
 const {
   addReview,
   getReviewsByBook,
+  getReviewsOfAllBooks,
   updateReview,
   deleteReview,
 } = require("../controllers/reviewController");
@@ -11,6 +12,10 @@ const router = express.Router();
 
 // Add a review to a book
 router.post("/:bookId", authMiddleware, addReview);
+
+// Get reviews for all books
+router.get("/all", getReviewsOfAllBooks);
+
 
 // Get all reviews for a book
 router.get("/:bookId", getReviewsByBook);

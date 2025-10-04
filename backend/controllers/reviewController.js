@@ -1,5 +1,5 @@
 const Book = require("../models/Book");
-const Review = require("../models/Review");
+
 // Add a review to a book
 const addReview = async (req, res) => {
   try {
@@ -25,6 +25,21 @@ const addReview = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+// Get all reviews for all books
+const getReviewsOfAllBooks = async (req, res) => {
+  try {
+    const reviews = await Book.find({ reviews: { $exists: true } })
+    if (!reviews) return res.status(404).json({ message: "No reviews found" });
+    
+    res.status(200).json(reviews);
+    console.log(reviews);
+  } catch (err) {
+    console.error("Error fetching reviews:", err);
+    res.status(500).json({ message: "Server error", error: err });
+  }
+};
+
 
 // Get all reviews for a book
 const getReviewsByBook = async (req, res) => {
@@ -102,4 +117,4 @@ const deleteReview = async (req, res) => {
   }
 };
 
-module.exports = { addReview, getReviewsByBook, updateReview, deleteReview };
+module.exports = { addReview, getReviewsOfAllBooks, getReviewsByBook, updateReview, deleteReview };

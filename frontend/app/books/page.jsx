@@ -5,6 +5,29 @@ const Books = () => {
   const [books, setBooks] = useState([]);
   const [signedIn, setSignedIn] = useState(false);
   const [token, setToken] = useState(null);
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(()=>{
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/review/all`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error(`Failed to fetch reviews: ${response.status}`);
+        }
+        const data = await response.json();
+        setReviews(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error(err);
+        setReviews([]);
+      }
+    };
+    fetchReviews();
+  },[])
 
   useEffect(() => {
     if (typeof window === "undefined") return;
