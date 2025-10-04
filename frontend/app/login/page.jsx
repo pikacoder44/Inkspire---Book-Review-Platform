@@ -24,6 +24,9 @@ const Login = () => {
       alert("User logged in successfully");
       if(typeof window !== "undefined"){
         localStorage.setItem("token", data.token);
+        localStorage.setItem("username", data.user.username);
+        // Dispatch custom event to update Navbar
+        window.dispatchEvent(new Event("authChange"));
       }
       router.push("/books");
     } else {
