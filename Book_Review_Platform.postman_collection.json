@@ -1,0 +1,496 @@
+{
+	"info": {
+		"_postman_id": "book-review-platform-2025",
+		"name": "Book Review Platform API",
+		"description": "Complete API collection for Book Review Platform with Authentication, Book Management, and Review System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"auth_token\", jsonData.token);",
+									"    pm.environment.set(\"user_id\", jsonData.user.id);",
+									"    pm.environment.set(\"username\", jsonData.user.username);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"securePassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						},
+						"description": "Register a new user with name, email, and password. Returns JWT token."
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"auth_token\", jsonData.token);",
+									"    pm.environment.set(\"user_id\", jsonData.user.id);",
+									"    pm.environment.set(\"username\", jsonData.user.username);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"securePassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						},
+						"description": "Login with email and password. Returns JWT token."
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/profile/{{username}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"profile",
+								"{{username}}"
+							]
+						},
+						"description": "Get user profile by username (protected route)"
+					},
+					"response": []
+				}
+			],
+			"description": "User authentication endpoints including registration, login, and profile retrieval"
+		},
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "Add Book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"book_id\", jsonData.book._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"The Great Gatsby\",\n  \"author\": \"F. Scott Fitzgerald\",\n  \"description\": \"A classic American novel set in the Jazz Age\",\n  \"genre\": \"Fiction\",\n  \"publishedYear\": 1925\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/books/addbook",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"addbook"
+							]
+						},
+						"description": "Add a new book (protected - requires authentication)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Books (Paginated)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/books/getbooks?page=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"getbooks"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number (5 books per page)"
+								}
+							]
+						},
+						"description": "Get all books with pagination (5 books per page)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/books/{{book_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"{{book_id}}"
+							]
+						},
+						"description": "Get a single book by ID with all reviews"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Book",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"The Great Gatsby (Updated)\",\n  \"author\": \"F. Scott Fitzgerald\",\n  \"description\": \"An updated description of this classic novel\",\n  \"genre\": \"Classic Fiction\",\n  \"publishedYear\": 1925\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/books/{{book_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"{{book_id}}"
+							]
+						},
+						"description": "Update a book (protected - only creator can update)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Book",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/books/{{book_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"{{book_id}}"
+							]
+						},
+						"description": "Delete a book (protected - only creator can delete)"
+					},
+					"response": []
+				}
+			],
+			"description": "Book management endpoints including CRUD operations with pagination"
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Add Review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"review_id\", jsonData.review._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"rating\": 5,\n  \"comment\": \"This is an amazing book! Highly recommended for anyone interested in American literature.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/review/{{book_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review",
+								"{{book_id}}"
+							]
+						},
+						"description": "Add a review to a book (protected - requires authentication)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Reviews for a Book",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/review/{{book_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review",
+								"{{book_id}}"
+							]
+						},
+						"description": "Get all reviews for a specific book"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Reviews (All Books)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/review/all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review",
+								"all"
+							]
+						},
+						"description": "Get all reviews from all books"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Review",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"rating\": 4,\n  \"comment\": \"Updated review: Still a great book, but I've read better since then.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/review/{{book_id}}/{{review_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review",
+								"{{book_id}}",
+								"{{review_id}}"
+							]
+						},
+						"description": "Update a review (protected - only review owner can update)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Review",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/review/{{book_id}}/{{review_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review",
+								"{{book_id}}",
+								"{{review_id}}"
+							]
+						},
+						"description": "Delete a review (protected - only review owner can delete)"
+					},
+					"response": []
+				}
+			],
+			"description": "Review management endpoints including add, view, update, and delete operations"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000/api",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "username",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "book_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "review_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
