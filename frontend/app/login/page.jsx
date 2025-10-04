@@ -22,7 +22,9 @@ const Login = () => {
     console.log(data);
     if (response.ok) {
       alert("User logged in successfully");
-      localStorage.setItem("token", data.token);
+      if(typeof window !== "undefined"){
+        localStorage.setItem("token", data.token);
+      }
       router.push("/books");
     } else {
       alert("User login failed");
