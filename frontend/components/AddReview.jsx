@@ -21,7 +21,7 @@ const AddReview = ({ isOpen, onClose, bookId, onReviewAdded }) => {
         return;
       }
 
-      const response = await fetch(`http://localhost:5000/api/review/${bookId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/review/${bookId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

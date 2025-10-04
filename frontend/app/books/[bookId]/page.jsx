@@ -19,7 +19,7 @@ const BookDetails = () => {
   const fetchBook = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/books/${bookId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/books/${bookId}`,
         {
           method: "GET",
           headers: {
@@ -88,7 +88,7 @@ const BookDetails = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/review/${bookId}/${reviewId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/review/${bookId}/${reviewId}`,
         {
           method: "DELETE",
           headers: {

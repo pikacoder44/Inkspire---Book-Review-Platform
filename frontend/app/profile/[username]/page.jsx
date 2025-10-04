@@ -15,7 +15,7 @@ const ProfilePage = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          `http://localhost:5000/api/users/profile/${username}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/users/profile/${username}`,
           {
             method: "GET",
             headers: {
@@ -43,7 +43,7 @@ const ProfilePage = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          "http://localhost:5000/api/books/getbooks",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/books/getbooks`,
           {
             headers: {
               "Content-Type": "application/json",

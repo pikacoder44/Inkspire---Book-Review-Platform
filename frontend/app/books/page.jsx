@@ -20,7 +20,7 @@ const Books = () => {
   const fetchBooks = async (page = 1) => {
     if (!token) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/books/getbooks?page=${page}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/books/getbooks?page=${page}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -91,7 +91,7 @@ const Books = () => {
   const handleDelete = async (bookId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/books/${bookId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/books/${bookId}`,
         {
           method: "DELETE",
           headers: {

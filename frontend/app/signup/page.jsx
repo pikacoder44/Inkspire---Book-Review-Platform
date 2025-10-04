@@ -11,7 +11,7 @@ const Signup = () => {
   const router = useRouter();
   const handleSignup = async () => {
     setLoading(true);
-    const response = await fetch("http://localhost:5000/api/users/register", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/register`, {
       method: "POST",
       body: JSON.stringify({
         username: username,

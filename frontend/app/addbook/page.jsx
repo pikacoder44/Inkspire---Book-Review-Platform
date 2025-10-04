@@ -18,7 +18,7 @@ const AddBook = () => {
     setError("");
     setSuccess("");
     setLoading(true);
-
+    
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -27,7 +27,7 @@ const AddBook = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:5000/api/books/addbook", {
+      const response = await fetch(` ${process.env.NEXT_PUBLIC_API_URL} /api/books/addbook`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
