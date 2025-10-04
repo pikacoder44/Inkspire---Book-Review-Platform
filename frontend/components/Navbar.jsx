@@ -96,7 +96,7 @@ const Navbar = () => {
               <div className="relative">
                 <button
                   onClick={() => setShowDropdown(!showDropdown)}
-                  className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-sky-600 px-4 py-2 text-sm font-medium text-white hover:from-indigo-500 hover:to-sky-500 transition-all"
+                  className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-2 text-sm font-medium text-white hover:from-purple-500 hover:to-pink-500 transition-all shadow-lg shadow-purple-500/20"
                 >
                   <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">
                     {username?.[0]?.toUpperCase() || "U"}
@@ -121,18 +121,18 @@ const Navbar = () => {
 
                 {/* Dropdown Menu */}
                 {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-48 rounded-lg border border-zinc-800 bg-zinc-900 shadow-lg">
+                  <div className="absolute right-0 mt-2 w-48 rounded-lg border border-purple-500/20 bg-zinc-900 shadow-lg ring-1 ring-purple-500/10">
                     <div className="py-1">
                       <a
                         href={`/profile/${username}`}
-                        className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition"
+                        className="block px-4 py-2 text-sm text-zinc-300 hover:bg-purple-500/10 hover:text-purple-300 transition"
                         onClick={() => setShowDropdown(false)}
                       >
                         View Profile
                       </a>
                       <button
                         onClick={handleLogout}
-                        className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-zinc-800 transition"
+                        className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-purple-500/10 transition"
                       >
                         Logout
                       </button>
@@ -143,7 +143,7 @@ const Navbar = () => {
             ) : (
               <a
                 href="/signup"
-                className="rounded-lg bg-gradient-to-r from-indigo-600 to-sky-600 px-4 py-2 text-sm font-medium text-white hover:from-indigo-500 hover:to-sky-500 transition-all"
+                className="rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-2 text-sm font-medium text-white hover:from-purple-500 hover:to-pink-500 transition-all shadow-lg shadow-purple-500/20"
               >
                 Sign Up
               </a>
