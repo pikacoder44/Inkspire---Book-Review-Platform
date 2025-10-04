@@ -42,48 +42,205 @@ const Books = () => {
   }, [token]);
 
   return (
-    <main className="font-sans min-h-screen relative">
+    <main className="font-sans min-h-screen relative pb-16">
+      {/* Background gradients */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(80rem_60rem_at_50%_-10%,rgba(99,102,241,0.25),transparent),radial-gradient(60rem_40rem_at_85%_10%,rgba(16,185,129,0.12),transparent)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(10,10,10,0.6)]" />
       </div>
-      <section className="relative mx-auto max-w-6xl px-6 py-24 sm:py-28 flex flex-col items-center justify-center gap-2">
-          <h1 className="text-6xl font-semibold tracking-tight">Books</h1>
-          <p className="mt-2 text-xl text-zinc-400">
-            Discover and manage your favorite books.
+
+      {/* Header Section */}
+      <section className="relative mx-auto max-w-7xl px-6 pt-16 pb-8">
+        <div className="text-center">
+          <h1 className="text-5xl sm:text-6xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400 bg-clip-text text-transparent">
+            Your Library
+          </h1>
+          <p className="mt-4 text-lg text-zinc-400 max-w-2xl mx-auto">
+            Discover, organize, and share your favorite books with the community.
           </p>
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 backdrop-blur-sm flex flex-col m-6 items-center justify-center gap-4">
+        </div>
 
-          <div>
-            {signedIn ? (
-              <div>
-                {/* card for each book */}
-                {books.map((book) => (
-                  <div
-                    key={book._id}
-                    className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 backdrop-blur-sm"
-                  >
-                    <h2 className="text-2xl font-semibold">{book.title}</h2>
-                    <p className="mt-2 text-sm text-zinc-400">{book.author}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="mt-2 text-xl text-red-400">
-                Please sign in to view your books.
-              </p>
-            )}
-
-            <div className="mt-10 flex items-center justify-center gap-3">
-              <a
-                href="#add-book"
-                className="rounded-md bg-white w-auto h-10 flex px-4 py-2 items-center justify-center text-2xl font-medium text-black hover:bg-gray-200 transition"
+        {/* Add Book Button */}
+        {signedIn && (
+          <div className="mt-8 flex justify-center">
+            <a
+              href="#add-book"
+              className="group relative inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-sky-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all hover:shadow-xl hover:shadow-indigo-500/40 hover:scale-105"
+            >
+              <svg
+                className="w-5 h-5 transition-transform group-hover:rotate-90"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                + Add Book
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              Add New Book
+            </a>
+          </div>
+        )}
+      </section>
+
+      {/* Books Grid Section */}
+      <section className="relative mx-auto max-w-7xl px-6 py-8">
+        {!signedIn ? (
+          <div className="flex flex-col items-center justify-center py-20">
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-12 backdrop-blur-sm text-center max-w-md">
+              <svg
+                className="w-16 h-16 mx-auto text-zinc-600 mb-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+              <h2 className="text-2xl font-semibold text-zinc-200 mb-2">
+                Authentication Required
+              </h2>
+              <p className="text-zinc-400 mb-6">
+                Please sign in to view and manage your book collection.
+              </p>
+              <a
+                href="/login"
+                className="inline-block rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-indigo-500 transition"
+              >
+                Sign In
               </a>
             </div>
           </div>
-        </div>
+        ) : books.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-20">
+            <div className="text-center max-w-md">
+              <svg
+                className="w-20 h-20 mx-auto text-zinc-700 mb-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                />
+              </svg>
+              <h2 className="text-2xl font-semibold text-zinc-300 mb-2">
+                No books yet
+              </h2>
+              <p className="text-zinc-500">
+                Start building your library by adding your first book!
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {books.map((book) => {
+              // Calculate average rating (placeholder for now - will be 0 until reviews are added)
+              const avgRating = book.reviews && book.reviews.length > 0
+                ? book.reviews.reduce((sum, review) => sum + review.rating, 0) / book.reviews.length
+                : 0;
+              const reviewCount = book.reviews ? book.reviews.length : 0;
+
+              return (
+                <div
+                  key={book._id}
+                  className="group relative rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6 transition-all hover:border-zinc-700 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1"
+                >
+                  {/* Book Icon & Title Section */}
+                  <div className="flex gap-4 mb-4">
+                    {/* Compact Book Icon */}
+                    <div className="flex-shrink-0 w-16 h-20 rounded-lg bg-gradient-to-br from-indigo-500/20 via-sky-500/20 to-emerald-500/20 flex items-center justify-center border border-zinc-800">
+                      <svg
+                        className="w-8 h-8 text-zinc-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                        />
+                      </svg>
+                    </div>
+
+                    {/* Book Info */}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-xl font-semibold text-zinc-100 line-clamp-2 mb-1 group-hover:text-indigo-400 transition-colors">
+                        {book.title}
+                      </h3>
+                      <p className="text-sm text-zinc-400 line-clamp-1">
+                        by {book.author}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  {book.description && (
+                    <p className="text-sm text-zinc-500 line-clamp-2 mb-4">
+                      {book.description}
+                    </p>
+                  )}
+
+                  {/* Star Rating */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <svg
+                          key={star}
+                          className={`w-5 h-5 ${
+                            star <= Math.round(avgRating)
+                              ? "text-yellow-500 fill-yellow-500"
+                              : "text-zinc-700 fill-zinc-700"
+                          } transition-colors`}
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span className="text-xs text-zinc-500">
+                      {reviewCount > 0 ? `${avgRating.toFixed(1)} (${reviewCount} reviews)` : "No reviews yet"}
+                    </span>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-2">
+                    <button className="flex-1 rounded-lg bg-zinc-800 px-4 py-2.5 text-sm font-medium text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all">
+                      View Details
+                    </button>
+                    <button className="rounded-lg bg-zinc-800 px-3 py-2.5 text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all">
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </section>
     </main>
   );

@@ -21,7 +21,8 @@ const addBook = async (req, res) => {
     console.log("Book added successfully");
     res.status(201).json({ message: "Book added successfully", book: newBook });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    console.log(err);
+    res.status(500).json({ message: "Server error" , error: err });
   }
 };
 
