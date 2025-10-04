@@ -26,6 +26,7 @@ const Signup = () => {
     console.log(data);
     if (response.ok) {
       alert("User registered successfully");
+      localStorage.setItem("token", data.token);
       router.push("/books");
     } else {
       alert("User registration failed");

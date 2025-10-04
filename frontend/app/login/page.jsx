@@ -1,4 +1,34 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+  const handleLogin = async () => {
+    setLoading(true);
+    const response = await fetch("http://localhost:5000/api/users/login", {
+      method: "POST",
+      body: JSON.stringify({ username: username, password: password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    if (response.ok) {
+      alert("User logged in successfully");
+      localStorage.setItem("token", data.token);
+      router.push("/books");
+    } else {
+      alert("User login failed");
+    }
+    setLoading(false);
+  };
   return (
     <main className="font-sans min-h-screen relative">
       <div className="pointer-events-none absolute inset-0 -z-10">
@@ -25,6 +55,8 @@ const Login = () => {
               <input
                 type="text"
                 placeholder="yourname"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="w-full rounded-md border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-zinc-700"
               />
             </div>
@@ -35,14 +67,18 @@ const Login = () => {
               <input
                 type="password"
                 placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full rounded-md border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-zinc-700"
               />
             </div>
             <button
               type="button"
+              disabled={loading}
+              onClick={handleLogin}
               className="w-full rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-indigo-500 transition"
             >
-              Log in
+              {loading ? "Logging in..." : "Log in"}
             </button>
           </form>
           <p className="mt-4 text-center text-sm text-zinc-500">
