@@ -2,6 +2,8 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 const ProfilePage = () => {
   const { username } = useParams();
   const router = useRouter();
@@ -15,7 +17,7 @@ const ProfilePage = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/users/profile/${username}`,
+          `${API_URL}/api/users/profile/${username}`,
           {
             method: "GET",
             headers: {
@@ -42,15 +44,12 @@ const ProfilePage = () => {
     const fetchUserBooks = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/books/getbooks`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(`${API_URL}/api/books/getbooks`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (response.ok) {
           const books = await response.json();

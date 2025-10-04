@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,7 +13,7 @@ const Login = () => {
   const router = useRouter();
   const handleLogin = async () => {
     setLoading(true);
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/login`, {
+    const response = await fetch(`${API_URL}/api/users/login`, {
       method: "POST",
       body: JSON.stringify({ email: email, password: password }),
       headers: {
@@ -22,7 +24,7 @@ const Login = () => {
     console.log(data);
     if (response.ok) {
       alert("User logged in successfully");
-      if(typeof window !== "undefined"){
+      if (typeof window !== "undefined") {
         localStorage.setItem("token", data.token);
         localStorage.setItem("username", data.user.username);
         // Dispatch custom event to update Navbar
@@ -48,8 +50,18 @@ const Login = () => {
         <div className="rounded-2xl border border-purple-500/20 bg-zinc-900/30 backdrop-blur-sm p-8 ring-1 ring-purple-500/10">
           <div className="mb-8 text-center">
             <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-purple-500/10 mb-6 ring-1 ring-purple-500/20">
-              <svg className="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+              <svg
+                className="w-8 h-8 text-purple-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                />
               </svg>
             </div>
             <h1 className="text-3xl font-bold tracking-tight mb-2">
@@ -99,7 +111,10 @@ const Login = () => {
 
           <p className="mt-6 text-center text-sm text-zinc-400">
             New here?{" "}
-            <a href="/signup" className="text-purple-400 hover:text-purple-300 font-medium transition">
+            <a
+              href="/signup"
+              className="text-purple-400 hover:text-purple-300 font-medium transition"
+            >
               Create an account
             </a>
           </p>

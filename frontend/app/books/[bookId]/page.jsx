@@ -5,6 +5,8 @@ import AddReview from "../../../components/AddReview";
 import EditBook from "../../../components/EditBook";
 import EditReview from "../../../components/EditReview";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 const BookDetails = () => {
   const { bookId } = useParams();
   const router = useRouter();
@@ -18,15 +20,12 @@ const BookDetails = () => {
 
   const fetchBook = async () => {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/books/${bookId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/api/books/${bookId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const data = await response.json();
       setBook(data);
     } catch (error) {
@@ -43,13 +42,13 @@ const BookDetails = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (showReviewDropdown && !event.target.closest('.review-dropdown')) {
+      if (showReviewDropdown && !event.target.closest(".review-dropdown")) {
         setShowReviewDropdown(null);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showReviewDropdown]);
 
   const handleAddReview = () => {
@@ -88,7 +87,7 @@ const BookDetails = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/review/${bookId}/${reviewId}`,
+        `${API_URL}/api/review/${bookId}/${reviewId}`,
         {
           method: "DELETE",
           headers: {
@@ -236,18 +235,38 @@ const BookDetails = () => {
                 {book.title}
               </h1>
               <p className="text-xl text-zinc-400 mb-4">by {book.author}</p>
-              
+
               {/* Genre and Year */}
               <div className="flex items-center gap-3 mb-4">
                 <span className="inline-flex items-center gap-1.5 rounded-lg bg-purple-500/10 px-3 py-1.5 text-sm font-medium text-purple-300 ring-1 ring-purple-500/20">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                    />
                   </svg>
                   {book.genre}
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-lg bg-cyan-500/10 px-3 py-1.5 text-sm font-medium text-cyan-300 ring-1 ring-cyan-500/20">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
                   </svg>
                   {book.publishedYear}
                 </span>
@@ -327,7 +346,10 @@ const BookDetails = () => {
             {book.reviews && book.reviews.length > 0 ? (
               <div className="space-y-4">
                 {book.reviews.map((review, index) => {
-                  const currentUsername = typeof window !== "undefined" ? localStorage.getItem("username") : null;
+                  const currentUsername =
+                    typeof window !== "undefined"
+                      ? localStorage.getItem("username")
+                      : null;
                   const isOwnReview = review.user?.username === currentUsername;
 
                   return (
@@ -369,7 +391,9 @@ const BookDetails = () => {
                             <button
                               onClick={() =>
                                 setShowReviewDropdown(
-                                  showReviewDropdown === review._id ? null : review._id
+                                  showReviewDropdown === review._id
+                                    ? null
+                                    : review._id
                                 )
                               }
                               className="text-zinc-500 hover:text-zinc-300 transition-colors"
@@ -400,7 +424,9 @@ const BookDetails = () => {
                                     Edit Review
                                   </button>
                                   <button
-                                    onClick={() => handleDeleteReview(review._id)}
+                                    onClick={() =>
+                                      handleDeleteReview(review._id)
+                                    }
                                     className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-purple-500/10 transition"
                                   >
                                     Delete Review

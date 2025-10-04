@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -11,7 +13,7 @@ const Signup = () => {
   const router = useRouter();
   const handleSignup = async () => {
     setLoading(true);
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/register`, {
+    const response = await fetch(`${API_URL}/api/users/register`, {
       method: "POST",
       body: JSON.stringify({
         username: username,
@@ -53,8 +55,18 @@ const Signup = () => {
         <div className="rounded-2xl border border-purple-500/20 bg-zinc-900/30 backdrop-blur-sm p-8 ring-1 ring-purple-500/10">
           <div className="mb-8 text-center">
             <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-500/10 mb-6 ring-1 ring-cyan-500/20">
-              <svg className="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+              <svg
+                className="w-8 h-8 text-cyan-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                />
               </svg>
             </div>
             <h1 className="text-3xl font-bold tracking-tight mb-2">
@@ -81,7 +93,9 @@ const Signup = () => {
               />
             </div>
             <div>
-              <label className="mb-2 block text-sm font-medium text-zinc-300">Email</label>
+              <label className="mb-2 block text-sm font-medium text-zinc-300">
+                Email
+              </label>
               <input
                 type="email"
                 placeholder="you@example.com"
@@ -114,7 +128,10 @@ const Signup = () => {
 
           <p className="mt-6 text-center text-sm text-zinc-400">
             Already have an account?{" "}
-            <a href="/login" className="text-purple-400 hover:text-purple-300 font-medium transition">
+            <a
+              href="/login"
+              className="text-purple-400 hover:text-purple-300 font-medium transition"
+            >
               Log in
             </a>
           </p>

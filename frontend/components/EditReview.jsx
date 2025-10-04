@@ -1,6 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 const EditReview = ({
   isOpen,
   onClose,
@@ -36,7 +38,7 @@ const EditReview = ({
       }
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/review/${bookId}/${reviewData._id}`,
+        `${API_URL}/api/review/${bookId}/${reviewData._id}`,
         {
           method: "PUT",
           headers: {

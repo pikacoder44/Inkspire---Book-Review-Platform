@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 const AddBook = () => {
   const router = useRouter();
   const [title, setTitle] = useState("");
@@ -18,7 +20,7 @@ const AddBook = () => {
     setError("");
     setSuccess("");
     setLoading(true);
-    
+
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -27,13 +29,19 @@ const AddBook = () => {
         return;
       }
 
-      const response = await fetch(` ${process.env.NEXT_PUBLIC_API_URL} /api/books/addbook`, {
+      const response = await fetch(`${API_URL}/api/books/addbook`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ title, author, description, genre, publishedYear: parseInt(publishedYear) }),
+        body: JSON.stringify({
+          title,
+          author,
+          description,
+          genre,
+          publishedYear: parseInt(publishedYear),
+        }),
       });
 
       const data = await response.json();
@@ -96,8 +104,18 @@ const AddBook = () => {
       <section className="relative mx-auto max-w-3xl px-6 pt-8 pb-4">
         <div className="text-center">
           <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-500/10 mb-6 ring-1 ring-cyan-500/20">
-            <svg className="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            <svg
+              className="w-8 h-8 text-cyan-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
             </svg>
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent mb-3">
@@ -328,4 +346,4 @@ const AddBook = () => {
   );
 };
 
-export default AddBook
+export default AddBook;

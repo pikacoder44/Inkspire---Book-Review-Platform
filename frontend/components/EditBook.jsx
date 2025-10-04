@@ -1,6 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 const EditBook = ({ isOpen, onClose, bookId, bookData, onBookUpdated }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -34,17 +36,20 @@ const EditBook = ({ isOpen, onClose, bookId, bookData, onBookUpdated }) => {
         return;
       }
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/books/${bookId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ title, author, description, genre, publishedYear: parseInt(publishedYear) }),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/books/${bookId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title,
+          author,
+          description,
+          genre,
+          publishedYear: parseInt(publishedYear),
+        }),
+      });
 
       const data = await response.json();
 
@@ -82,8 +87,18 @@ const EditBook = ({ isOpen, onClose, bookId, bookData, onBookUpdated }) => {
           <div className="flex items-center justify-between border-b border-purple-500/20 p-6">
             <div className="flex items-center gap-3">
               <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/10 ring-1 ring-cyan-500/20">
-                <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                <svg
+                  className="w-5 h-5 text-cyan-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
                 </svg>
               </div>
               <h2 className="text-2xl font-bold text-white">Edit Book</h2>
