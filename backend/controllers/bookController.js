@@ -5,7 +5,6 @@ const Book = require("../models/Book");
 const addBook = async (req, res) => {
   const { title, author, description } = req.body;
   try {
-
     // Check if book with same title already exists
     const existingBook = await Book.findOne({ title });
     if (existingBook) {
@@ -22,7 +21,7 @@ const addBook = async (req, res) => {
     res.status(201).json({ message: "Book added successfully", book: newBook });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Server error" , error: err });
+    res.status(500).json({ message: "Server error", error: err });
   }
 };
 
@@ -42,13 +41,37 @@ const getBooks = async (req, res) => {
 const getBookById = async (req, res) => {
   const { bookId } = req.params;
   try {
-    const book = await Book.findById(bookId).populate("reviews.user", "username email");
+    const book = await Book.findById(bookId).populate(
+      "reviews.user",
+      "username email"
+    );
     if (!book) {
       return res.status(404).json({ message: "Book not found" });
     }
     console.log(book);
     res.status(200).json(book);
     console.log("Book retrieved successfully");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Update a book
+const updateBook = async (req, res) => {
+  const { bookId } = req.params;
+  const { title, author, description } = req.body;
+  try {
+    const book = await Book.findByIdAndUpdate(
+      bookId,
+      { title, author, description },
+      { new: true }
+    );
+    if (!book) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+    console.log("Book updated successfully");
+    res.status(200).json({ message: "Book updated successfully", book });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Server error" });
@@ -71,4 +94,4 @@ const deleteBook = async (req, res) => {
   }
 };
 
-module.exports = { addBook, getBooks, getBookById, deleteBook };
+module.exports = { addBook, getBooks, getBookById, updateBook, deleteBook };

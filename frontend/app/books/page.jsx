@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import AddReview from "../../components/AddReview";
+import EditBook from "../../components/EditBook";
 const Books = () => {
   const [books, setBooks] = useState([]);
   const [signedIn, setSignedIn] = useState(false);
@@ -10,6 +11,8 @@ const Books = () => {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [selectedBookId, setSelectedBookId] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedBook, setSelectedBook] = useState(null);
   const fetchBooks = async () => {
     if (!token) return;
     try {
@@ -38,6 +41,18 @@ const Books = () => {
   const handleReviewAdded = () => {
     setShowModal(false);
     fetchBooks(); // Refresh books to show updated reviews
+  };
+
+  const handleEditBook = (book) => {
+    setSelectedBook(book);
+    setSelectedBookId(book._id);
+    setShowEditModal(true);
+    setShowDropdown(null);
+  };
+
+  const handleBookUpdated = () => {
+    setShowEditModal(false);
+    fetchBooks(); // Refresh books to show updated data
   };
 
   useEffect(() => {
@@ -294,10 +309,7 @@ const Books = () => {
                           <div className="py-1">
                             <button
                               className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-700 transition"
-                              onClick={() => {
-                                setShowDropdown(null);
-                                router.push(`/books/${book._id}/edit`);
-                              }}
+                              onClick={() => handleEditBook(book)}
                             >
                               Edit Book
                             </button>
@@ -333,6 +345,15 @@ const Books = () => {
         onClose={() => setShowModal(false)}
         bookId={selectedBookId}
         onReviewAdded={handleReviewAdded}
+      />
+
+      {/* Edit Book Modal */}
+      <EditBook
+        isOpen={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        bookId={selectedBookId}
+        bookData={selectedBook}
+        onBookUpdated={handleBookUpdated}
       />
     </main>
   );

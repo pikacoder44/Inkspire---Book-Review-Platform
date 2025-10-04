@@ -2,6 +2,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AddReview from "../../../components/AddReview";
+import EditBook from "../../../components/EditBook";
 
 const BookDetails = () => {
   const { bookId } = useParams();
@@ -9,6 +10,7 @@ const BookDetails = () => {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const fetchBook = async () => {
     try {
@@ -39,7 +41,16 @@ const BookDetails = () => {
   };
 
   const handleReviewAdded = () => {
+    setShowModal(false);
+    fetchBook();
+  };
 
+  const handleEditBook = () => {
+    setShowEditModal(true);
+  };
+
+  const handleBookUpdated = () => {
+    setShowEditModal(false);
     fetchBook();
   };
 
@@ -215,7 +226,10 @@ const BookDetails = () => {
                 >
                   Add Review
                 </button>
-                <button className="rounded-lg border border-zinc-700 bg-zinc-800 px-6 py-2.5 text-sm font-medium text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all">
+                <button
+                  onClick={handleEditBook}
+                  className="rounded-lg border border-zinc-700 bg-zinc-800 px-6 py-2.5 text-sm font-medium text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all"
+                >
                   Edit Book
                 </button>
               </div>
@@ -327,6 +341,15 @@ const BookDetails = () => {
         onClose={() => setShowModal(false)}
         bookId={bookId}
         onReviewAdded={handleReviewAdded}
+      />
+
+      {/* Edit Book Modal */}
+      <EditBook
+        isOpen={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        bookId={bookId}
+        bookData={book}
+        onBookUpdated={handleBookUpdated}
       />
     </main>
   );
