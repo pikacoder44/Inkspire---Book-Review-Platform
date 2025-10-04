@@ -4,6 +4,7 @@ const {
   addBook,
   getBooks,
   getBookById,
+  deleteBook,
 } = require("../controllers/bookController");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
@@ -16,5 +17,8 @@ router.get("/getbooks", getBooks);
 
 // Get a book by ID
 router.get("/:bookId", getBookById);
+
+// Delete a book
+router.delete("/:bookId", authMiddleware, deleteBook);
 
 module.exports = router;

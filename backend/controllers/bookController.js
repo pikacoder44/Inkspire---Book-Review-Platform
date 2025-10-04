@@ -55,4 +55,20 @@ const getBookById = async (req, res) => {
   }
 };
 
-module.exports = { addBook, getBooks, getBookById };
+// Delete Book
+const deleteBook = async (req, res) => {
+  const { bookId } = req.params;
+  try {
+    const book = await Book.findByIdAndDelete(bookId);
+    if (!book) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+    console.log("Book deleted successfully");
+    res.status(200).json({ message: "Book deleted successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = { addBook, getBooks, getBookById, deleteBook };
