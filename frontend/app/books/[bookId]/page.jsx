@@ -1,35 +1,47 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import AddReview from "../../../components/AddReview";
 
 const BookDetails = () => {
   const { bookId } = useParams();
   const router = useRouter();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
+  const fetchBook = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/books/${bookId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      setBook(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchBook = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/api/books/${bookId}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const data = await response.json();
-        setBook(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchBook();
   }, [bookId]);
+
+  const handleAddReview = () => {
+    setShowModal(true);
+  };
+
+  const handleReviewAdded = () => {
+    // Refetch book data to show new review
+    fetchBook();
+  };
 
   // Calculate average rating
   const avgRating =
@@ -197,7 +209,10 @@ const BookDetails = () => {
 
               {/* Action Buttons */}
               <div className="flex gap-3">
-                <button className="rounded-lg bg-gradient-to-r from-indigo-600 to-sky-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all hover:shadow-xl hover:shadow-indigo-500/40 hover:scale-105">
+                <button
+                  onClick={handleAddReview}
+                  className="rounded-lg bg-gradient-to-r from-indigo-600 to-sky-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all hover:shadow-xl hover:shadow-indigo-500/40 hover:scale-105"
+                >
                   Add Review
                 </button>
                 <button className="rounded-lg border border-zinc-700 bg-zinc-800 px-6 py-2.5 text-sm font-medium text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all">
@@ -294,7 +309,10 @@ const BookDetails = () => {
                 <p className="text-zinc-500 mb-4">
                   No reviews yet. Be the first to review this book!
                 </p>
-                <button className="rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-indigo-500 transition">
+                <button
+                  onClick={handleAddReview}
+                  className="rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-indigo-500 transition"
+                >
                   Write a Review
                 </button>
               </div>
@@ -302,6 +320,14 @@ const BookDetails = () => {
           </div>
         </div>
       </section>
+
+      {/* Add Review Modal */}
+      <AddReview
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        bookId={bookId}
+        onReviewAdded={handleReviewAdded}
+      />
     </main>
   );
 };
