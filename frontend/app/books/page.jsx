@@ -6,9 +6,10 @@ const Books = () => {
   const [signedIn, setSignedIn] = useState(false);
   const [token, setToken] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(null);
   const router = useRouter();
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchReviews = async () => {
       try {
         const response = await fetch(`http://localhost:5000/api/review/all`, {
@@ -28,7 +29,7 @@ const Books = () => {
       }
     };
     fetchReviews();
-  },[])
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -46,12 +47,15 @@ const Books = () => {
     if (!token) return;
     const fetchBooks = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/books/getbooks", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          "http://localhost:5000/api/books/getbooks",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error(`Failed to fetch books: ${response.status}`);
         }
@@ -80,7 +84,8 @@ const Books = () => {
             Your Library
           </h1>
           <p className="mt-4 text-lg text-zinc-400 max-w-2xl mx-auto">
-            Discover, organize, and share your favorite books with the community.
+            Discover, organize, and share your favorite books with the
+            community.
           </p>
         </div>
 
@@ -170,9 +175,13 @@ const Books = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {books.map((book) => {
               // Calculate average rating (placeholder for now - will be 0 until reviews are added)
-              const avgRating = book.reviews && book.reviews.length > 0
-                ? book.reviews.reduce((sum, review) => sum + review.rating, 0) / book.reviews.length
-                : 0;
+              const avgRating =
+                book.reviews && book.reviews.length > 0
+                  ? book.reviews.reduce(
+                      (sum, review) => sum + review.rating,
+                      0
+                    ) / book.reviews.length
+                  : 0;
               const reviewCount = book.reviews ? book.reviews.length : 0;
 
               return (
@@ -235,30 +244,85 @@ const Books = () => {
                       ))}
                     </div>
                     <span className="text-xs text-zinc-500">
-                      {reviewCount > 0 ? `${avgRating.toFixed(1)} (${reviewCount} reviews)` : "No reviews yet"}
+                      {reviewCount > 0
+                        ? `${avgRating.toFixed(1)} (${reviewCount} reviews)`
+                        : "No reviews yet"}
                     </span>
                   </div>
 
                   {/* Action Buttons */}
                   <div className="flex gap-2">
-                    <button onClick={() => router.push(`/books/${book._id}`)} className="flex-1 rounded-lg bg-zinc-800 px-4 py-2.5 text-sm font-medium text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all">
+                    <button
+                      onClick={() => router.push(`/books/${book._id}`)}
+                      className="flex-1 rounded-lg bg-zinc-800 px-4 py-2.5 text-sm font-medium text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all"
+                    >
                       View Details
                     </button>
-                    <button className="rounded-lg bg-zinc-800 px-3 py-2.5 text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all">
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                    <div className="relative inline-block">
+                      <button
+                        className="rounded-lg bg-zinc-800 px-3 py-2.5 text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all"
+                        onClick={() =>
+                          setShowDropdown(
+                            showDropdown === book._id ? null : book._id
+                          )
+                        }
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                        />
-                      </svg>
-                    </button>
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                          />
+                        </svg>
+                      </button>
+                      {showDropdown === book._id && (
+                        <div className="absolute right-0 mt-2 w-48 bg-zinc-800 rounded-lg shadow-lg border border-zinc-700 z-10">
+                          <div className="py-1">
+                            <button
+                              className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-700 transition"
+                              onClick={() =>
+                                router.push(`/books/${book._id}/edit`)
+                              }
+                            >
+                              Edit Book
+                            </button>
+                            <button
+                              className="block w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-700 transition"
+                              onClick={() =>
+                                router.push(`/books/${book._id}/rate`)
+                              }
+                            >
+                              Rate Book
+                            </button>
+                            <button
+                              className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-zinc-700 transition"
+                              onClick={async () => {
+                                const response = await fetch(
+                                  `http://localhost:5000/api/books/${book._id}`,
+                                  {
+                                    method: "DELETE",
+                                  }
+                                );
+                                if (response.ok) {
+                                  alert("Book deleted successfully");
+                                  window.location.reload();
+                                } else {
+                                  alert("Failed to delete book");
+                                }
+                              }}
+                            >
+                              Delete Book
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
