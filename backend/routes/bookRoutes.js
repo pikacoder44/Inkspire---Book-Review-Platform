@@ -8,10 +8,8 @@ const {
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 
-router.use(authMiddleware);
-
 // Add a new book
-router.post("/addbook", addBook);
+router.post("/addbook", authMiddleware, addBook);
 
 // Get all books
 router.get("/getbooks", getBooks);

@@ -1,11 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
-
+import { useRouter } from "next/navigation";
 const Books = () => {
   const [books, setBooks] = useState([]);
   const [signedIn, setSignedIn] = useState(false);
   const [token, setToken] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const router = useRouter();
 
   useEffect(()=>{
     const fetchReviews = async () => {
@@ -240,7 +241,7 @@ const Books = () => {
 
                   {/* Action Buttons */}
                   <div className="flex gap-2">
-                    <button className="flex-1 rounded-lg bg-zinc-800 px-4 py-2.5 text-sm font-medium text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all">
+                    <button onClick={() => router.push(`/books/${book._id}`)} className="flex-1 rounded-lg bg-zinc-800 px-4 py-2.5 text-sm font-medium text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all">
                       View Details
                     </button>
                     <button className="rounded-lg bg-zinc-800 px-3 py-2.5 text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all">

@@ -29,7 +29,7 @@ const addBook = async (req, res) => {
 // Get all books
 const getBooks = async (req, res) => {
   try {
-    const books = await Book.find().populate("reviews");
+    const books = await Book.find().populate("reviews.user", "username email");
     res.status(200).json(books);
     console.log("Books retrieved successfully");
   } catch (err) {
@@ -42,10 +42,11 @@ const getBooks = async (req, res) => {
 const getBookById = async (req, res) => {
   const { bookId } = req.params;
   try {
-    const book = await Book.findById(bookId).populate("reviews");
+    const book = await Book.findById(bookId).populate("reviews.user", "username email");
     if (!book) {
       return res.status(404).json({ message: "Book not found" });
     }
+    console.log(book);
     res.status(200).json(book);
     console.log("Book retrieved successfully");
   } catch (err) {
