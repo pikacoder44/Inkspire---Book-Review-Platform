@@ -107,7 +107,6 @@ const deleteReview = async (req, res) => {
 
     book.reviews.pull(review._id);
     await book.save();
-    await Review.findByIdAndDelete(reviewId);
     
     console.log("Review deleted for ID:", reviewId);
     res.status(200).json({ message: "Review deleted" });
