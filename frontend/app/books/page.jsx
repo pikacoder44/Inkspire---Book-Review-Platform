@@ -13,15 +13,12 @@ const Books = () => {
   const fetchBooks = async () => {
     if (!token) return;
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/books/getbooks",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch("http://localhost:5000/api/books/getbooks", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) {
         throw new Error(`Failed to fetch books: ${response.status}`);
       }
@@ -58,6 +55,27 @@ const Books = () => {
   useEffect(() => {
     fetchBooks();
   }, [token]);
+
+  const handleDelete = async (bookId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/books/${bookId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`Failed to delete book: ${response.status}`);
+      }
+      fetchBooks();
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <main className="font-sans min-h-screen relative pb-16">
@@ -294,21 +312,7 @@ const Books = () => {
                             </button>
                             <button
                               className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-zinc-700 transition"
-                              onClick={async () => {
-                                setShowDropdown(null);
-                                const response = await fetch(
-                                  `http://localhost:5000/api/books/${book._id}`,
-                                  {
-                                    method: "DELETE",
-                                  }
-                                );
-                                if (response.ok) {
-                                  alert("Book deleted successfully");
-                                  window.location.reload();
-                                } else {
-                                  alert("Failed to delete book");
-                                }
-                              }}
+                              onClick={() => handleDelete(book._id)}
                             >
                               Delete Book
                             </button>
