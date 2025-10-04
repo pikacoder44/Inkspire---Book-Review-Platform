@@ -52,9 +52,11 @@ const ProfilePage = () => {
         });
 
         if (response.ok) {
-          const books = await response.json();
+          const data = await response.json();
+          // Extract books array from response (API returns {books: [], currentPage, totalPages, totalBooks})
+          const booksArray = Array.isArray(data.books) ? data.books : [];
           // Filter books that have reviews by this user
-          const booksWithUserReviews = books.filter((book) =>
+          const booksWithUserReviews = booksArray.filter((book) =>
             book.reviews?.some((review) => review.user?.username === username)
           );
           setUserBooks(booksWithUserReviews);
