@@ -5,6 +5,8 @@ const {
   loginUser,
   getProfile,
 } = require("../controllers/userController");
+const authMiddleware = require("../middleware/authMiddleware");
+
 const router = express.Router();
 
 // Register a new user
@@ -14,6 +16,6 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 // Get user profile
-router.get("/profile/:username", getProfile);
+router.get("/profile/:username", authMiddleware, getProfile);
 
 module.exports = router;

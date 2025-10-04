@@ -116,7 +116,7 @@ const Books = () => {
         {signedIn && (
           <div className="mt-8 flex justify-center">
             <a
-              href="#add-book"
+              href="/addbook"
               className="group relative inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-sky-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all hover:shadow-xl hover:shadow-indigo-500/40 hover:scale-105"
             >
               <svg
