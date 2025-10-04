@@ -201,15 +201,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="border-t border-zinc-900/60">
-        <div className="mx-auto max-w-6xl px-6 py-10 text-center text-sm text-zinc-500">
-          <span>
-            &copy;2025 | Syed Muhammad Hashir Ali | All rights reserved
-          </span>
-        </div>
-      </footer>
+      
     </main>
   );
 }
