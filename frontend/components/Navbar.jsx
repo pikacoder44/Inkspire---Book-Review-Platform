@@ -88,7 +88,7 @@ const Navbar = () => {
               href="/books"
               className="text-sm font-medium text-zinc-300 hover:text-white transition"
             >
-              Books
+              Library
             </a>
 
             {/* Conditional rendering based on login status */}
