@@ -1,4 +1,38 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 const Signup = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const handleSignup = async () => {
+    setLoading(true);
+    const response = await fetch("http://localhost:5000/api/users/register", {
+      method: "POST",
+      body: JSON.stringify({
+        username: username,
+        email: email,
+        password: password,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    if (response.ok) {
+      alert("User registered successfully");
+      router.push("/books");
+    } else {
+      alert("User registration failed");
+    }
+    setLoading(false);
+  };
+
   return (
     <main className="font-sans min-h-screen relative">
       <div className="pointer-events-none absolute inset-0 -z-10">
@@ -25,6 +59,8 @@ const Signup = () => {
               <input
                 type="text"
                 placeholder="yourname"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="w-full rounded-md border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-zinc-700"
               />
             </div>
@@ -33,6 +69,8 @@ const Signup = () => {
               <input
                 type="email"
                 placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full rounded-md border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-zinc-700"
               />
             </div>
@@ -43,14 +81,18 @@ const Signup = () => {
               <input
                 type="password"
                 placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full rounded-md border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-zinc-700"
               />
             </div>
             <button
               type="button"
               className="w-full rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-indigo-500 transition"
+              disabled={loading}
+              onClick={handleSignup}
             >
-              Sign up
+              {loading ? "Signing up..." : "Sign up"}
             </button>
           </form>
           <p className="mt-4 text-center text-sm text-zinc-500">
