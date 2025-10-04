@@ -56,18 +56,20 @@ const AddBook = () => {
   };
 
   return (
-    <main className="font-sans min-h-screen relative pb-16">
-      {/* Background gradients */}
+    <main className="font-sans min-h-screen relative pb-16 overflow-hidden">
+      {/* Animated Background */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(80rem_60rem_at_50%_-10%,rgba(99,102,241,0.25),transparent),radial-gradient(60rem_40rem_at_85%_10%,rgba(16,185,129,0.12),transparent)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(10,10,10,0.6)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-950 via-zinc-950 to-cyan-950" />
+        <div className="absolute top-0 -left-4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
+        <div className="absolute top-0 -right-4 w-96 h-96 bg-cyan-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000" />
       </div>
 
       {/* Back Button */}
       <div className="relative mx-auto max-w-3xl px-6 pt-8">
         <button
           onClick={() => router.push("/books")}
-          className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200 transition-colors"
+          className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors font-medium"
         >
           <svg
             className="w-5 h-5"
@@ -89,19 +91,23 @@ const AddBook = () => {
       {/* Header Section */}
       <section className="relative mx-auto max-w-3xl px-6 pt-8 pb-4">
         <div className="text-center">
-          
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400 bg-clip-text text-transparent mb-3">
+          <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-500/10 mb-6 ring-1 ring-cyan-500/20">
+            <svg className="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent mb-3">
             Add New Book
           </h1>
           <p className="text-lg text-zinc-400 max-w-xl mx-auto">
-            Expand your library by adding a new book to your collection.
+            Expand your library by adding a new book to your collection
           </p>
         </div>
       </section>
 
       {/* Form Section */}
       <section className="relative mx-auto max-w-3xl px-6 py-8">
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-8">
+        <div className="rounded-2xl border border-purple-500/20 bg-zinc-900/30 backdrop-blur-sm p-8 ring-1 ring-purple-500/10">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title Field */}
             <div>
@@ -118,7 +124,7 @@ const AddBook = () => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Enter the book title"
-                className="w-full rounded-lg border border-zinc-800 bg-zinc-950/60 px-4 py-3 text-base text-zinc-200 placeholder-zinc-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
+                className="w-full rounded-xl border border-purple-500/20 bg-zinc-950/60 px-4 py-3 text-base text-zinc-200 placeholder-zinc-500 outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/20 transition-all"
               />
             </div>
 
@@ -137,7 +143,7 @@ const AddBook = () => {
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
                 placeholder="Enter the author's name"
-                className="w-full rounded-lg border border-zinc-800 bg-zinc-950/60 px-4 py-3 text-base text-zinc-200 placeholder-zinc-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
+                className="w-full rounded-xl border border-purple-500/20 bg-zinc-950/60 px-4 py-3 text-base text-zinc-200 placeholder-zinc-500 outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/20 transition-all"
               />
             </div>
 
@@ -155,7 +161,7 @@ const AddBook = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter a brief description of the book (optional)"
-                className="w-full rounded-lg border border-zinc-800 bg-zinc-950/60 px-4 py-3 text-base text-zinc-200 placeholder-zinc-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all resize-none"
+                className="w-full rounded-xl border border-purple-500/20 bg-zinc-950/60 px-4 py-3 text-base text-zinc-200 placeholder-zinc-500 outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none"
               />
               <p className="mt-2 text-xs text-zinc-500">
                 {description.length} characters
@@ -211,14 +217,14 @@ const AddBook = () => {
               <button
                 type="button"
                 onClick={() => router.push("/books")}
-                className="flex-1 rounded-lg border border-zinc-700 bg-zinc-800 px-6 py-3 text-base font-medium text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all"
+                className="flex-1 rounded-xl border border-purple-500/30 bg-zinc-800/50 px-6 py-3 text-base font-medium text-zinc-300 hover:bg-zinc-800 hover:text-white hover:border-purple-500/50 transition-all"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 rounded-lg bg-gradient-to-r from-indigo-600 to-sky-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all hover:shadow-xl hover:shadow-indigo-500/40 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-lg"
+                className="flex-1 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-purple-500/25 transition-all hover:shadow-xl hover:shadow-purple-500/40 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-lg"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
