@@ -63,13 +63,14 @@ const BookDetails = () => {
 
   if (loading) {
     return (
-      <main className="font-sans min-h-screen relative flex items-center justify-center">
+      <main className="font-sans min-h-screen relative flex items-center justify-center overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-[radial-gradient(80rem_60rem_at_50%_-10%,rgba(99,102,241,0.25),transparent),radial-gradient(60rem_40rem_at_85%_10%,rgba(16,185,129,0.12),transparent)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(10,10,10,0.6)]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-950 via-zinc-950 to-cyan-950" />
+          <div className="absolute top-0 -left-4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
+          <div className="absolute top-0 -right-4 w-96 h-96 bg-cyan-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
         </div>
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-zinc-400">Loading book details...</p>
         </div>
       </main>
@@ -78,34 +79,37 @@ const BookDetails = () => {
 
   if (!book) {
     return (
-      <main className="font-sans min-h-screen relative flex items-center justify-center">
+      <main className="font-sans min-h-screen relative flex items-center justify-center overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-[radial-gradient(80rem_60rem_at_50%_-10%,rgba(99,102,241,0.25),transparent),radial-gradient(60rem_40rem_at_85%_10%,rgba(16,185,129,0.12),transparent)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(10,10,10,0.6)]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-950 via-zinc-950 to-cyan-950" />
+          <div className="absolute top-0 -left-4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
+          <div className="absolute top-0 -right-4 w-96 h-96 bg-cyan-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
         </div>
         <div className="text-center">
-          <svg
-            className="w-20 h-20 mx-auto text-zinc-700 mb-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <h2 className="text-2xl font-semibold text-zinc-300 mb-2">
+          <div className="inline-flex h-20 w-20 items-center justify-center rounded-2xl bg-pink-500/10 mb-6 ring-1 ring-pink-500/20">
+            <svg
+              className="w-10 h-10 text-pink-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-semibold text-white mb-2">
             Book not found
           </h2>
-          <p className="text-zinc-500 mb-6">
+          <p className="text-zinc-400 mb-6">
             The book you're looking for doesn't exist.
           </p>
           <button
             onClick={() => router.push("/books")}
-            className="rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-indigo-500 transition"
+            className="rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all hover:scale-105"
           >
             Back to Library
           </button>
@@ -115,18 +119,20 @@ const BookDetails = () => {
   }
 
   return (
-    <main className="font-sans min-h-screen relative pb-16">
-      {/* Background gradients */}
+    <main className="font-sans min-h-screen relative pb-16 overflow-hidden">
+      {/* Animated Background */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(80rem_60rem_at_50%_-10%,rgba(99,102,241,0.25),transparent),radial-gradient(60rem_40rem_at_85%_10%,rgba(16,185,129,0.12),transparent)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(10,10,10,0.6)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-950 via-zinc-950 to-cyan-950" />
+        <div className="absolute top-0 -left-4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
+        <div className="absolute top-0 -right-4 w-96 h-96 bg-cyan-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000" />
       </div>
 
       {/* Back Button */}
       <div className="relative mx-auto max-w-5xl px-6 pt-8">
         <button
           onClick={() => router.push("/books")}
-          className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200 transition-colors"
+          className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors font-medium"
         >
           <svg
             className="w-5 h-5"
@@ -147,13 +153,13 @@ const BookDetails = () => {
 
       {/* Book Details Section */}
       <section className="relative mx-auto max-w-5xl px-6 py-8">
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-8">
+        <div className="rounded-2xl border border-purple-500/20 bg-zinc-900/30 backdrop-blur-sm p-8 ring-1 ring-purple-500/10">
           {/* Book Header */}
           <div className="flex flex-col md:flex-row gap-8 mb-8">
             {/* Book Icon */}
-            <div className="flex-shrink-0 w-32 h-40 rounded-xl bg-gradient-to-br from-indigo-500/20 via-sky-500/20 to-emerald-500/20 flex items-center justify-center border border-zinc-800">
+            <div className="flex-shrink-0 w-32 h-40 rounded-xl bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-cyan-500/20 flex items-center justify-center border border-purple-500/30">
               <svg
-                className="w-16 h-16 text-zinc-600"
+                className="w-16 h-16 text-purple-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -169,7 +175,7 @@ const BookDetails = () => {
 
             {/* Book Info */}
             <div className="flex-1">
-              <h1 className="text-4xl font-bold text-zinc-100 mb-3">
+              <h1 className="text-4xl font-bold text-white mb-3">
                 {book.title}
               </h1>
               <p className="text-xl text-zinc-400 mb-4">by {book.author}</p>
@@ -222,13 +228,13 @@ const BookDetails = () => {
               <div className="flex gap-3">
                 <button
                   onClick={handleAddReview}
-                  className="rounded-lg bg-gradient-to-r from-indigo-600 to-sky-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all hover:shadow-xl hover:shadow-indigo-500/40 hover:scale-105"
+                  className="rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-500/25 transition-all hover:shadow-xl hover:shadow-purple-500/40 hover:scale-105"
                 >
                   Add Review
                 </button>
                 <button
                   onClick={handleEditBook}
-                  className="rounded-lg border border-zinc-700 bg-zinc-800 px-6 py-2.5 text-sm font-medium text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all"
+                  className="rounded-xl border border-purple-500/30 bg-zinc-800/50 px-6 py-3 text-sm font-medium text-zinc-300 hover:bg-zinc-800 hover:text-white hover:border-purple-500/50 transition-all"
                 >
                   Edit Book
                 </button>
@@ -237,11 +243,11 @@ const BookDetails = () => {
           </div>
 
           {/* Divider */}
-          <div className="border-t border-zinc-800 my-8"></div>
+          <div className="border-t border-purple-500/20 my-8"></div>
 
           {/* Reviews Section */}
           <div>
-            <h2 className="text-2xl font-bold text-zinc-200 mb-6">
+            <h2 className="text-2xl font-bold text-white mb-6">
               Reviews ({book.reviews ? book.reviews.length : 0})
             </h2>
 
@@ -250,17 +256,17 @@ const BookDetails = () => {
                 {book.reviews.map((review, index) => (
                   <div
                     key={index}
-                    className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-5"
+                    className="rounded-xl border border-purple-500/20 bg-zinc-900/20 p-5 ring-1 ring-purple-500/10"
                   >
                     {/* Review Header */}
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
                         {/* User Avatar Placeholder */}
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-sky-500 flex items-center justify-center text-white font-semibold">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-semibold">
                           {review.user?.username?.[0]?.toUpperCase() || "U"}
                         </div>
                         <div>
-                          <p className="font-medium text-zinc-200">
+                          <p className="font-medium text-white">
                             {review.user?.username || "Anonymous"}
                           </p>
                           <div className="flex gap-1 mt-1">
@@ -325,7 +331,7 @@ const BookDetails = () => {
                 </p>
                 <button
                   onClick={handleAddReview}
-                  className="rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-indigo-500 transition"
+                  className="rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all hover:scale-105"
                 >
                   Write a Review
                 </button>

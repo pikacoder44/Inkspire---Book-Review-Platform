@@ -91,13 +91,14 @@ const ProfilePage = () => {
 
   if (loading) {
     return (
-      <main className="font-sans min-h-screen relative flex items-center justify-center">
+      <main className="font-sans min-h-screen relative flex items-center justify-center overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-[radial-gradient(80rem_60rem_at_50%_-10%,rgba(99,102,241,0.25),transparent),radial-gradient(60rem_40rem_at_85%_10%,rgba(16,185,129,0.12),transparent)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(10,10,10,0.6)]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-950 via-zinc-950 to-cyan-950" />
+          <div className="absolute top-0 -left-4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
+          <div className="absolute top-0 -right-4 w-96 h-96 bg-cyan-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
         </div>
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-zinc-400">Loading profile...</p>
         </div>
       </main>
@@ -106,34 +107,37 @@ const ProfilePage = () => {
 
   if (error || !user) {
     return (
-      <main className="font-sans min-h-screen relative flex items-center justify-center">
+      <main className="font-sans min-h-screen relative flex items-center justify-center overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-[radial-gradient(80rem_60rem_at_50%_-10%,rgba(99,102,241,0.25),transparent),radial-gradient(60rem_40rem_at_85%_10%,rgba(16,185,129,0.12),transparent)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(10,10,10,0.6)]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-950 via-zinc-950 to-cyan-950" />
+          <div className="absolute top-0 -left-4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
+          <div className="absolute top-0 -right-4 w-96 h-96 bg-cyan-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
         </div>
         <div className="text-center">
-          <svg
-            className="w-20 h-20 mx-auto text-zinc-700 mb-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <h2 className="text-2xl font-semibold text-zinc-300 mb-2">
+          <div className="inline-flex h-20 w-20 items-center justify-center rounded-2xl bg-pink-500/10 mb-6 ring-1 ring-pink-500/20">
+            <svg
+              className="w-10 h-10 text-pink-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-semibold text-white mb-2">
             User not found
           </h2>
-          <p className="text-zinc-500 mb-6">
+          <p className="text-zinc-400 mb-6">
             The user you're looking for doesn't exist.
           </p>
           <button
             onClick={() => router.push("/books")}
-            className="rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-indigo-500 transition"
+            className="rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all hover:scale-105"
           >
             Back to Library
           </button>
@@ -143,18 +147,20 @@ const ProfilePage = () => {
   }
 
   return (
-    <main className="font-sans min-h-screen relative pb-16">
-      {/* Background gradients */}
+    <main className="font-sans min-h-screen relative pb-16 overflow-hidden">
+      {/* Animated Background */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(80rem_60rem_at_50%_-10%,rgba(99,102,241,0.25),transparent),radial-gradient(60rem_40rem_at_85%_10%,rgba(16,185,129,0.12),transparent)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(10,10,10,0.6)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-950 via-zinc-950 to-cyan-950" />
+        <div className="absolute top-0 -left-4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
+        <div className="absolute top-0 -right-4 w-96 h-96 bg-cyan-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000" />
       </div>
 
       {/* Back Button */}
       <div className="relative mx-auto max-w-6xl px-6 pt-8">
         <button
           onClick={() => router.push("/books")}
-          className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200 transition-colors"
+          className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors font-medium"
         >
           <svg
             className="w-5 h-5"
@@ -175,29 +181,29 @@ const ProfilePage = () => {
 
       {/* Profile Header Section */}
       <section className="relative mx-auto max-w-6xl px-6 py-8">
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-8">
+        <div className="rounded-2xl border border-purple-500/20 bg-zinc-900/30 backdrop-blur-sm p-8 ring-1 ring-purple-500/10">
           <div className="flex flex-col md:flex-row gap-8 items-start">
             {/* Avatar */}
             <div className="flex-shrink-0">
-              <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-indigo-500 via-sky-500 to-emerald-500 flex items-center justify-center text-white text-5xl font-bold shadow-lg shadow-indigo-500/30">
+              <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-purple-500 via-pink-500 to-cyan-500 flex items-center justify-center text-white text-5xl font-bold shadow-lg shadow-purple-500/30">
                 {user.username?.[0]?.toUpperCase() || "U"}
               </div>
             </div>
 
             {/* User Info */}
             <div className="flex-1">
-              <h1 className="text-4xl font-bold text-zinc-100 mb-2">
+              <h1 className="text-4xl font-bold text-white mb-2">
                 {user.username}
               </h1>
               <p className="text-lg text-zinc-400 mb-6">{user.email}</p>
 
               {/* Stats */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
+                <div className="rounded-xl border border-purple-500/20 bg-zinc-900/20 p-4 ring-1 ring-purple-500/10">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-indigo-500/20 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
                       <svg
-                        className="w-5 h-5 text-indigo-400"
+                        className="w-5 h-5 text-purple-400"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -221,7 +227,7 @@ const ProfilePage = () => {
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
+                <div className="rounded-xl border border-purple-500/20 bg-zinc-900/20 p-4 ring-1 ring-purple-500/10">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center">
                       <svg
@@ -241,11 +247,11 @@ const ProfilePage = () => {
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
+                <div className="rounded-xl border border-purple-500/20 bg-zinc-900/20 p-4 ring-1 ring-purple-500/10">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center">
                       <svg
-                        className="w-5 h-5 text-emerald-400"
+                        className="w-5 h-5 text-cyan-400"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -278,7 +284,7 @@ const ProfilePage = () => {
 
       {/* Reviews Section */}
       <section className="relative mx-auto max-w-6xl px-6 py-4">
-        <h2 className="text-2xl font-bold text-zinc-200 mb-6">
+        <h2 className="text-2xl font-bold text-white mb-6">
           Reviews by {user.username}
         </h2>
 
@@ -292,15 +298,15 @@ const ProfilePage = () => {
               return userBookReviews?.map((review, index) => (
                 <div
                   key={`${book._id}-${index}`}
-                  className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6 hover:border-zinc-700 transition-all"
+                  className="rounded-xl border border-purple-500/20 bg-zinc-900/30 backdrop-blur-sm p-6 hover:border-purple-500/40 transition-all ring-1 ring-purple-500/10"
                 >
                   {/* Book Info Header */}
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex gap-4 flex-1">
                       {/* Book Icon */}
-                      <div className="flex-shrink-0 w-12 h-16 rounded-lg bg-gradient-to-br from-indigo-500/20 via-sky-500/20 to-emerald-500/20 flex items-center justify-center border border-zinc-800">
+                      <div className="flex-shrink-0 w-12 h-16 rounded-lg bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-cyan-500/20 flex items-center justify-center border border-purple-500/30">
                         <svg
-                          className="w-6 h-6 text-zinc-600"
+                          className="w-6 h-6 text-purple-400"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -317,7 +323,7 @@ const ProfilePage = () => {
                       {/* Book Details */}
                       <div className="flex-1">
                         <h3
-                          className="text-xl font-semibold text-zinc-100 mb-1 hover:text-indigo-400 transition-colors cursor-pointer"
+                          className="text-xl font-semibold text-white mb-1 hover:text-purple-400 transition-colors cursor-pointer"
                           onClick={() => router.push(`/books/${book._id}`)}
                         >
                           {book.title}
@@ -353,7 +359,7 @@ const ProfilePage = () => {
                     {/* View Book Button */}
                     <button
                       onClick={() => router.push(`/books/${book._id}`)}
-                      className="ml-4 rounded-lg bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all"
+                      className="ml-4 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all hover:scale-105"
                     >
                       View Book
                     </button>
@@ -363,7 +369,7 @@ const ProfilePage = () => {
             })}
           </div>
         ) : (
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-12 text-center">
+          <div className="rounded-xl border border-purple-500/20 bg-zinc-900/30 backdrop-blur-sm p-12 text-center ring-1 ring-purple-500/10">
             <svg
               className="w-16 h-16 mx-auto text-zinc-700 mb-4"
               fill="none"

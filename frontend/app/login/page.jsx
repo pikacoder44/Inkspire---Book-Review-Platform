@@ -35,60 +35,71 @@ const Login = () => {
     setLoading(false);
   };
   return (
-    <main className="font-sans min-h-screen relative">
+    <main className="font-sans min-h-screen relative overflow-hidden">
+      {/* Animated Background */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(80rem_60rem_at_50%_-10%,rgba(99,102,241,0.25),transparent),radial-gradient(60rem_40rem_at_85%_10%,rgba(16,185,129,0.12),transparent)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(10,10,10,0.6)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-950 via-zinc-950 to-cyan-950" />
+        <div className="absolute top-0 -left-4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
+        <div className="absolute top-0 -right-4 w-96 h-96 bg-cyan-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000" />
       </div>
+
       <section className="relative mx-auto max-w-md px-6 py-24 sm:py-28">
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 backdrop-blur-sm">
-          <div className="mb-6 text-center">
-            <h1 className="text-3xl font-semibold tracking-tight">
-              <span className="bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400 bg-clip-text text-transparent">
-                Welcome back
+        <div className="rounded-2xl border border-purple-500/20 bg-zinc-900/30 backdrop-blur-sm p-8 ring-1 ring-purple-500/10">
+          <div className="mb-8 text-center">
+            <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-purple-500/10 mb-6 ring-1 ring-purple-500/20">
+              <svg className="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+              </svg>
+            </div>
+            <h1 className="text-3xl font-bold tracking-tight mb-2">
+              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
+                Welcome Back
               </span>
             </h1>
-            <p className="mt-2 text-sm text-zinc-400">
-              Log in to manage books and share your reviews.
+            <p className="text-sm text-zinc-400">
+              Log in to manage books and share your reviews
             </p>
           </div>
-          <form className="space-y-4">
+
+          <form className="space-y-5">
             <div>
-              <label className="mb-1 block text-sm text-zinc-300">
+              <label className="mb-2 block text-sm font-medium text-zinc-300">
                 Username
               </label>
               <input
                 type="text"
-                placeholder="yourname"
+                placeholder="Enter your username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full rounded-md border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-zinc-700"
+                className="w-full rounded-xl border border-purple-500/20 bg-zinc-950/60 px-4 py-3 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/20 transition"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm text-zinc-300">
+              <label className="mb-2 block text-sm font-medium text-zinc-300">
                 Password
               </label>
               <input
                 type="password"
-                placeholder="••••••••"
+                placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-md border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-zinc-700"
+                className="w-full rounded-xl border border-purple-500/20 bg-zinc-950/60 px-4 py-3 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/20 transition"
               />
             </div>
             <button
               type="button"
               disabled={loading}
               onClick={handleLogin}
-              className="w-full rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-indigo-500 transition"
+              className="w-full rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               {loading ? "Logging in..." : "Log in"}
             </button>
           </form>
-          <p className="mt-4 text-center text-sm text-zinc-500">
+
+          <p className="mt-6 text-center text-sm text-zinc-400">
             New here?{" "}
-            <a href="/signup" className="text-indigo-400 hover:text-indigo-300">
+            <a href="/signup" className="text-purple-400 hover:text-purple-300 font-medium transition">
               Create an account
             </a>
           </p>
