@@ -4,7 +4,10 @@ A Fullstack **Book Review Platform** where users can sign up, log in, add books,
 This project demonstrates skills in **MongoDB, Express, React, Node.js (MERN)** with authentication, CRUD operations, and frontend integration.
 
 ---
-
+## Live Demo
+### Varcel: https://logiksutra-ai-submission.vercel.app/ 
+### Render: https://logiksutraai-backend.onrender.com
+---
 ## 🚀 Features
 
 ### 🔑 User Authentication
@@ -626,3 +629,4 @@ This project is created for the Logiksutra AI Assignment.
 - Vercel for frontend deployment
 - Render/Railway for backend deployment
 - Tailwind CSS for styling
+
