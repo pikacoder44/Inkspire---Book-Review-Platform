@@ -7,7 +7,7 @@ This project demonstrates skills in **MongoDB, Express, React, Node.js (MERN)** 
 
 ## Live Demo
 
-### Varcel: https://logiksutra-ai-submission.vercel.app/
+### Varcel: https://inkspire-book-review-platform-2mcb0jzjk-pika-ops-projects.vercel.app/
 
 ### Render: https://logiksutraai-backend.onrender.com
 
