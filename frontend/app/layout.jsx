@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Logiksutra - Book Review Platform",
+  title: "Inkspire - Book Review Platform",
   description: "Discover, organize, and share your favorite books",
 };
 

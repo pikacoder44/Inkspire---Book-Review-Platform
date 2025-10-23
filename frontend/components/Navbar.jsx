@@ -71,7 +71,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <a href="/" className="text-2xl font-semibold">
               <span className="bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400 bg-clip-text text-transparent">
-                Logiksutra
+                InkSpire
               </span>
             </a>
           </div>
